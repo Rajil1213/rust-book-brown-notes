@@ -1,2 +1,9 @@
 # executable
 main
+
+# lock file
+Cargo.lock
+
+# Added by cargo
+
+/target
