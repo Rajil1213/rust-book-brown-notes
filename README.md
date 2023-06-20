@@ -235,6 +235,3 @@
 - This will create an executable in `target/release` (instead of `target/debug`.
 - The optimizations make the code faster but the compilation slower.
 - Benchmarks should be based on these optimized versions.
-
-
-This repo contains my notes and solutions to the [interactive Rust Book fork](https://rust-book.cs.brown.edu) from Brown University.
