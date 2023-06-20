@@ -34,7 +34,7 @@
 - You might need to reload your shell or source the env to have access to the command-line utilities just installed:
     
     ```bash
-    source "$HOME/.cargo/env
+    source "$HOME/.cargo/env"
     ```
     
 - To check whether Rust is installed successfully, run:
