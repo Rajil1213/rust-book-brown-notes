@@ -232,6 +232,6 @@
     cargo build --release
     ```
     
-- This will create an executable in `target/release` (instead of `target/debug`.
+- This will create an executable in `target/release` (instead of `target/debug`).
 - The optimizations make the code faster but the compilation slower.
 - Benchmarks should be based on these optimized versions.
