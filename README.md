@@ -78,10 +78,13 @@
     rustup doc
     ```
     
-
 ### Quiz
 
-Command-line tool for managing the version of Rust: `**rustc**`
+<details>
+ <summary>Answers</summary>
+
+ Command-line tool for managing the version of Rust: **`rustc`**
+</details>
 
 ## Hello World
 
