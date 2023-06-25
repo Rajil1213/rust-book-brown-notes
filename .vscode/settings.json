@@ -2,6 +2,7 @@
   "rust-analyzer.linkedProjects": [
     "./variables/Cargo.toml",
     "./datatypes/Cargo.toml",
-    "./exercises/temperatures/Cargo.toml"
+    "./exercises/temperatures/Cargo.toml",
+    "./exercises/fibonacci/Cargo.toml"
   ]
 }
