@@ -3,6 +3,7 @@
     "./variables/Cargo.toml",
     "./datatypes/Cargo.toml",
     "./exercises/temperatures/Cargo.toml",
-    "./exercises/fibonacci/Cargo.toml"
+    "./exercises/fibonacci/Cargo.toml",
+    "./exercises/twelve-days-of-christmas/Cargo.toml"
   ]
 }
