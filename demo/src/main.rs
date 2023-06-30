@@ -1,3 +1,4 @@
+mod borrow_checker;
 mod dereferences;
 mod ownership;
 mod references_and_borrowing;
@@ -11,4 +12,6 @@ fn main() {
     dereferences::test();
     println!("------------------------------");
     slices::test();
+    println!("------------------------------");
+    borrow_checker::test();
 }
