@@ -64,6 +64,30 @@
     ```
     
 
+#### Quiz
+
+- Which statement best describes what it means if a variable x is immutable?
+    
+    x cannot be changed after being assigned a value
+    
+- What is the keyword after `let` to indicate that a variable can be mutated?
+    
+    `mut`
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let x = 1;
+      println!("{x}");
+      x += 1;
+      println!("{x}");
+    }
+    ```
+    
+    does NOT compile (`x += 1` reassigns to `x`).
+    
+
 ### Constants
 
 - Like immutable variables, Rust also allows us to define `constant`s that are simply values bound to a variable and are not allowed to change
@@ -84,6 +108,24 @@
 💡 Naming hardcoded values used throughout your program as constants is useful n conveying the meaning of that value to future maintainers of the code. It also helps to have only one place in your code you would need to change if the hardcoded value needs to be updated in the future.
 
 </aside>
+
+#### Quiz
+
+- Which of the following statements is correct about the difference between using `let` and `const` to declare a variable?
+    
+    `const` can be used in the global scope, and `let` can only be used in a function
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    const TWO: u32 = 1 + 1;
+    fn main() {
+      println!("{TWO}");
+    }
+    ```
+    
+    does compile (outputs `2`). `const` declarations can include limited forms of computation.
+    
 
 ### Shadowing
 
@@ -124,6 +166,36 @@
     
 - This spares us the trouble of naming the variables `spaces_str` and `spaces_num`.
 - The above is not possible with `let mut` because the type of the variable cannot be mutated.
+
+#### Quiz
+
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let mut x: u32 = 1;
+      {
+        let mut x = x;
+        x += 2;
+      }
+      println!("{x}");
+    }
+    ```
+    
+    DOES Compile and outputs `1` (because only the `x` inside the inner scope is incremented)
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let mut x: u32 = 1;
+      x = "Hello world";
+      println!("{x}");
+    }
+    ```
+    
+    does NOT compile. Changing data type of mutable variable is not allowed.
+    
 
 ## Data Types
 
@@ -284,6 +356,28 @@
 - Single quotes is a must
 - Four bytes in size
 
+#### Quiz
+
+- The largest number representable by the type `i128` is:
+    
+    $2^{127} -1$
+    
+- If `x : u8 = 0`, what will happen when computing `x - 1`?
+    
+    It depends on the compiler mode (no error in release mode, error in debug mode)
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let x: fsize = 2.0;
+      println!("{x}");
+    }
+    ```
+    
+    does NOT compile (there is no `fsize` data type)
+    
+
 ### Compound Types
 
 - Can group multiple values into one type
@@ -341,6 +435,33 @@
     ```
     
 - If the array index is greater than the length of the array, Rust will panic preventing any unsafe memory access (as in the case of other low-level languages like C).
+
+#### Quiz
+
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let message = "The temperature today is:";
+      let x = [message, 100];
+      println!("{} {}", x[0], x[1]);
+    }
+    ```
+    
+    does NOT compile (array must have the same type of elements)
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let t = ([1; 2], [3; 4]);
+      let (a, _) = t;
+      println!("{}", a[0] + t.1[0]); 
+    }
+    ```
+    
+    DOES compile with output: `4` (a = [1, 1]; a[0] = 1, t.1 = [3, 3, 3, 3], t.1[0] = 3, a[0] + t.1[0] = 1 + 3 = 4)
+    
 
 ## Functions
 
@@ -414,6 +535,30 @@
     
 - Adding `;` after `input + 1` causes a compilation error because the statement `x+1;` returns a unit `()` while the function expects an `i32`.
 
+### Quiz
+
+- In Rust, a curly-brace block like `{ /* ... */ }` is:
+1. An expression
+2. A statement
+3. A syntactic scope
+    
+    1 and 3
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn f(x: i32) -> i32 { x + 1 }
+    fn main() {
+      println!("{}", f({
+        let y = 1;
+        y + 1
+      }));
+    }
+    ```
+    
+    DOES compile with output `3`. (`y + 1` is passed `f(x)`)
+    
+
 ## Comments
 
 - Comments in Rust are preceded by `//`
@@ -453,6 +598,40 @@
     ```
     
     Note that the [two] return expressions must have the same type.
+    
+
+#### Quiz
+
+- True/false: executing these two pieces of code results in the same value for `x`.
+    
+    ```rust
+    let x = if cond { 1 } else { 2 };
+    ```
+    
+    ```rust
+    let x;
+    if cond {
+      x = 1;
+    } else {
+      x = 2;
+    }
+    ```
+    
+    (Note: both of these snippets compile!)
+    
+    True
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+      let x = 1;
+      let y = if x { 0 } else { 1 }; 
+      println!("{y}");
+    }
+    ```
+    
+    does NOT compile (there are no `truthy` or `falsy` values in Rust, the condition has to be of boolean type)
     
 
 ### Loops
@@ -554,3 +733,42 @@
     `step_by(2)` adds a step of 2 i.e, the numbers generated by the range expression are: `1,3,5,7,9` that have a difference of two between two consecutive values.
     
     `rev()` simply reverses the order i.e., from 9 to 1 instead of 1 to 9.
+    
+
+#### Quiz
+
+- True/false: this code will terminate (that is, it will not loop forever).
+    
+    ```rust
+    fn main() {
+        let mut x = 0;
+        'a: loop {
+            x += 1;
+            'b: loop {
+                if x > 10 {
+                    continue 'a;
+                } else {
+                    break 'b;
+                }      
+            }
+            break;       
+        }
+    }
+    ```
+    
+    True (due to the `break` statements
+    
+- Determine whether the program will pass the compiler. If it passes, write the expected output of the program if it were executed.
+    
+    ```rust
+    fn main() {
+        let a = [5; 10];
+        let mut sum = 0;
+        for x in a {
+            sum += x;
+        }
+        println!("{sum}");
+    }
+    ```
+    
+    DOES compile with output: `50` (sum an array with 10 5’s)
