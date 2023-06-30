@@ -160,7 +160,7 @@ The pointer holds the actual location of the data, the length of the data (in by
 
 - When we bind `s1` to `s2` on the second line, a new pointer `s2` is created that also references the same block of memory in the heap as `s1`.
 
-![A new pointer and no new data is created](images/Untitled%_1.png)
+![A new pointer and no new data is created](images/Untitled_1.png)
 
 A new pointer and no new data is created
 
