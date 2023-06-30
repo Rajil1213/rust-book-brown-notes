@@ -9,10 +9,10 @@ pub fn test() {
     let b: i32 = **r1; // two dereferences get us to the heap value
     println!("r1 = {r1}, b = {b}");
 
-    let r2: &mut i32 = &mut *x; // r2 points to the heap value directly (aliasing)
+    let r2: &mut i32 = &mut *x; // r2 points to the heap value directly (aliasing); `*x` is borrowed by `r2`
     *r2 += 1; // mutate aliased data
     let c: i32 = *r2; // so only one dereference is needed to read it
-    println!("r2 = {r2}, c = {c}");
+    println!("r2 = {r2}, c = {c}"); // scope of r2 returns here and so ownership returns to x
 
-    println!("Value of x after r2's scope ends: {x} ");
+    println!("Value of x after r2 is modified: {x} ");
 }
