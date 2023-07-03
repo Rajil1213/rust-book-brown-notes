@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Rect {
     pub width: u32,
     pub height: u32,
@@ -15,6 +15,24 @@ impl Rect {
 
     pub fn can_hold(&self, other: &Rect) -> bool {
         self.width >= other.width && self.height >= other.height
+    }
+
+    // sets the width of the Rect
+    pub fn set_width(&mut self, width: u32) {
+        self.width = width;
+    }
+
+    // returns a Rect that can fit both Rect's
+    pub fn max(self, other: Rect) -> Rect {
+        Rect {
+            width: self.width.max(other.width),
+            height: self.height.max(other.height),
+        }
+    }
+
+    pub fn set_to_max(&mut self, other: Rect) {
+        let max = self.max(other); // L2
+        *self = max;
     }
 }
 
