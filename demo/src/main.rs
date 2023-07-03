@@ -1,5 +1,6 @@
 use crate::rectangle::Rect;
 
+mod method_ownership;
 mod rectangle;
 struct Point {
     x: i32,
@@ -54,4 +55,25 @@ fn main() {
         square_from_rect,
         square_from_rect.area()
     );
+
+    println!("------------------------------");
+
+    let rect1 = Rect {
+        width: 10,
+        height: 20,
+    };
+
+    let mut rect2 = Rect {
+        width: 0,
+        height: 15,
+    };
+
+    println!("Before set width, rect = {:?}", rect2);
+    Rect::set_width(&mut rect2, 20); // or simply, rect2.width(20)
+    println!("After set width, rect = {:?}", rect2);
+
+    println!("Max Rect = {:?}", rect1.max(rect2));
+
+    println!("------------------------------");
+    method_ownership::test();
 }
