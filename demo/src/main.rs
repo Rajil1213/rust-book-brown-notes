@@ -1,3 +1,5 @@
+mod matching;
+
 fn main() {
     #[derive(Debug)]
     enum IpAddrKind {
@@ -9,4 +11,7 @@ fn main() {
     let loopback = IpAddrKind::V6(String::from("::1"));
 
     println!("Home = {:?}, Loopback = {:?}", home, loopback);
+
+    println!("-----------------------------------------------");
+    matching::test();
 }
