@@ -1,5 +1,5 @@
 #[derive(Debug)]
-enum UsState {
+pub enum UsState {
     Alabama,
     Alaska,
     Arizona,
@@ -7,7 +7,7 @@ enum UsState {
 }
 
 #[derive(Debug)]
-enum Coin {
+pub enum Coin {
     Penny,
     Nickel,
     Dime,
