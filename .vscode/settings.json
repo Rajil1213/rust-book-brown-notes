@@ -1,5 +1,6 @@
 {
   "rust-analyzer.linkedProjects": [
-    "/path/to/Cargo.toml"
-  ]
+    "./restaurant/Cargo.toml"
+  ],
+  "rust-analyzer.showUnlinkedFileNotification": false
 }
