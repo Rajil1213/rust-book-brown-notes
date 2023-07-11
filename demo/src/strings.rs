@@ -21,4 +21,21 @@ pub fn test() {
     let tic_tac_toe = format!("{tic}-{tac}-{toe}");
 
     println!("{tic}-{tac}-{toe} = {tic_tac_toe}");
+
+    // UTF-8 demo:
+    let namaste = "नमस्ते";
+    let namaste_bytes = namaste.as_bytes();
+    println!("Bytes in {namaste} = {namaste_bytes:?}");
+
+    let namaste_as_chars = namaste.chars();
+    let mut namaste_scalars: Vec<char> = Vec::new();
+    for scalar in namaste_as_chars {
+        namaste_scalars.push(scalar);
+    }
+    println!("Scalars (chars) in {namaste} = {:?}", namaste_scalars);
+
+    // string slice
+    let s = &namaste[1..3];
+    // this panics at runtime
+    println!("slice of namaste = {:?}", s);
 }
