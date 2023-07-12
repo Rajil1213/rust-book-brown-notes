@@ -35,7 +35,7 @@ pub fn test() {
     println!("Scalars (chars) in {namaste} = {:?}", namaste_scalars);
 
     // string slice
-    let s = &namaste[1..3];
+    // let s = &namaste[1..3];
     // this panics at runtime
-    println!("slice of namaste = {:?}", s);
+    // println!("slice of namaste = {:?}", s);
 }
