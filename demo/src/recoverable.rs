@@ -20,10 +20,20 @@ fn try_to_open_file(path: &str) -> File {
     return my_file;
 }
 
+fn try_to_open_file_with_unwrap(path: &str) -> File {
+    File::open(path).unwrap()
+}
+
+fn try_to_open_file_with_expect(path: &str) -> File {
+    File::open(path).expect(&format!("{path} must exist in this project"))
+}
+
 pub fn test() {
     let creatable_file_path = "non_existing_file.txt";
     let unreadable_file_path = "unreadable.txt";
 
+    try_to_open_file_with_expect(creatable_file_path);
+    try_to_open_file_with_unwrap(creatable_file_path);
     try_to_open_file(creatable_file_path);
     try_to_open_file(unreadable_file_path);
 }
