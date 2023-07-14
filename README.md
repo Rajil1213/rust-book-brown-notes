@@ -36,7 +36,7 @@
 
 - Take the following program:
     
-    ```toml
+    ```rust
     fn main() {
         let a = vec![1; 100];
         a[100];
@@ -46,7 +46,7 @@
 - Here, we are trying to access the 101th element in an array that only contains 100 elements.
 - This results in a runtime panic:
     
-    ```toml
+    ```rust
     cargo run
        Compiling demo v0.1.0 (~/rust-book-brown-notes/demo)
         Finished dev [unoptimized + debuginfo] target(s) in 0.69s
@@ -61,7 +61,7 @@
 - Rust protects against these vulnerabilities by stopping the execution of the program when such an error occurs
 - When we use the environment variable `RUST_BACKTRACE` as suggested in the above error messag, we get a more verbose output:
     
-    ```toml
+    ```rust
     RUST_BACKTRACE=1 cargo run
         Finished dev [unoptimized + debuginfo] target(s) in 0.07s
          Running `target/debug/demo`
