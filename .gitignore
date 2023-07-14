@@ -1,3 +1,2 @@
 target/
-demo/src/unreadable.txt
-demo/src/non_existing_file.txt
+demo/src/*.txt
