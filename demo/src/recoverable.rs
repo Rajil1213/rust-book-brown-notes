@@ -53,6 +53,14 @@ fn read_username_from_file(path: &str) -> Result<String, Error> {
     Ok(username)
 }
 
+fn read_username_from_file_succinct(path: &str) -> Result<String, Error> {
+    let mut username = String::new();
+
+    File::open(path)?.read_to_string(&mut username)?;
+
+    Ok(username)
+}
+
 pub fn test() {
     let creatable_file_path = "non_existing_file.txt";
     let unreadable_file_path = "unreadable.txt";
@@ -64,6 +72,11 @@ pub fn test() {
     }
 
     match read_username_from_file(contentful_file) {
+        Ok(username) => println!("username in file: {username}"),
+        Err(e) => println!("could not read from file: {contentful_file}, {e:?}"),
+    }
+
+    match read_username_from_file_succinct(contentful_file) {
         Ok(username) => println!("username in file: {username}"),
         Err(e) => println!("could not read from file: {contentful_file}, {e:?}"),
     }
