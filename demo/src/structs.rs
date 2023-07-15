@@ -14,7 +14,7 @@ impl<X1, Y1> Point<X1, Y1> {
     }
 
     // here, we use <X2, Y2> instead of <X1, Y1> since those are the ones that need defining
-    fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
+    pub fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
         Point {
             x: self.x,
             y: other.y,
@@ -23,7 +23,7 @@ impl<X1, Y1> Point<X1, Y1> {
 }
 
 impl Point<f64, f64> {
-    fn distance_from_origin(&self) -> f64 {
-        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    pub fn distance_from_origin(&self) -> f64 {
+        (self.x().powi(2) + self.y().powi(2)).sqrt()
     }
 }
