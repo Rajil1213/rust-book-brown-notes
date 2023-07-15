@@ -10,7 +10,9 @@ fn main() {
 
     let int_point = structs::Point { x: 5, y: 10 };
     let float_point = structs::Point { x: 1.0, y: 2.0 };
+    println!("int_point = {int_point:?}, float_point = {float_point:?}");
 
     let exists = enums::Optional::Exists(2);
     let does_not_exist: enums::Optional<i32> = enums::Optional::None;
+    println!("exists = {exists:?}, does_not_exist = {does_not_exist:?}");
 }

@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct Point<X1, Y1> {
     pub x: X1,
     pub y: Y1,
