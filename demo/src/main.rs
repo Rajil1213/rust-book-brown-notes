@@ -1,3 +1,6 @@
+use aggregator::{Summary, Tweet};
+
+mod aggregator;
 mod enums;
 mod functions;
 mod structs;
@@ -22,4 +25,13 @@ fn main() {
     let exists = enums::Optional::Exists(2);
     let does_not_exist: enums::Optional<i32> = enums::Optional::None;
     println!("exists = {exists:?}, does_not_exist = {does_not_exist:?}");
+
+    let tweet = Tweet {
+        username: String::from("tweeter"),
+        content: String::from("this is my first tweet"),
+        reply: false,
+        retweet: true,
+    };
+
+    println!("1 new tweet: {}", tweet.summarize());
 }
