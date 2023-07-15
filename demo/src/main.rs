@@ -13,7 +13,7 @@ fn main() {
     println!("int_point = {int_point:?}, float_point = {float_point:?}");
     println!(
         "distance of {float_point:?} from origin = {}",
-        &float_point.distance_from_origin()
+        float_point.distance_from_origin()
     );
 
     let mixedup = int_point.mixup(float_point);
