@@ -1,4 +1,4 @@
-pub fn get_largest<T>(num_list: &Vec<T>) -> &T {
+pub fn get_largest<T: std::cmp::PartialOrd>(num_list: &Vec<T>) -> &T {
     if num_list.len() == 0 {
         panic!("list of numbers cannot be empty");
     }
