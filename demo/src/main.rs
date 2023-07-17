@@ -1,5 +1,7 @@
 use aggregator::{Summary, Tweet};
 
+use crate::aggregator::notify;
+
 mod aggregator;
 mod enums;
 mod functions;
@@ -34,4 +36,6 @@ fn main() {
     };
 
     println!("1 new tweet: {}", tweet.summarize());
+
+    notify(&tweet);
 }
