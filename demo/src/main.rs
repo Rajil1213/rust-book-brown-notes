@@ -5,6 +5,7 @@ use crate::aggregator::notify;
 mod aggregator;
 mod enums;
 mod functions;
+mod lifetimes;
 mod structs;
 
 fn main() {
@@ -38,4 +39,6 @@ fn main() {
     println!("1 new tweet: {}", tweet.summarize());
 
     notify(&tweet);
+
+    lifetimes::test();
 }
