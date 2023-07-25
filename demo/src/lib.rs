@@ -22,6 +22,10 @@ pub fn panic_if_greater(input: i32, limit: i32) -> String {
     format!("Congratulations, you stayed under the limit, received {input}!")
 }
 
+pub fn adder(left: i32, right: i32) -> i32 {
+    left + right + left
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -69,11 +73,23 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "Input cannot be greater than")]
     fn greater_than_limit() {
         let value = 60;
         let limit = 40;
 
         panic_if_greater(value, limit);
+    }
+
+    #[test]
+    fn adder_works() -> Result<(), String> {
+        if adder(2, 3) == 5 {
+            Ok(())
+        } else {
+            Err(String::from(format!(
+                "two plus three does not equal five, got {}!",
+                adder(2, 3)
+            )))
+        }
     }
 }
