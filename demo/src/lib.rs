@@ -26,6 +26,10 @@ pub fn adder(left: i32, right: i32) -> i32 {
     left + right + left
 }
 
+fn internal_adder(left: i32, right: i32) -> i32 {
+    left + right
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -82,8 +86,21 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn adder_works() -> Result<(), String> {
         if adder(2, 3) == 5 {
+            Ok(())
+        } else {
+            Err(String::from(format!(
+                "two plus three does not equal five, got {}!",
+                adder(2, 3)
+            )))
+        }
+    }
+
+    #[test]
+    fn internal_adder_works() -> Result<(), String> {
+        if internal_adder(2, 3) == 5 {
             Ok(())
         } else {
             Err(String::from(format!(
