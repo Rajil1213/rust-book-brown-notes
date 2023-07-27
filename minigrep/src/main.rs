@@ -1,4 +1,4 @@
-use std::{env, fs, process};
+use std::{env, error::Error, fs, process};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -7,7 +7,11 @@ fn main() {
         process::exit(1);
     });
 
-    run(config);
+    // use if..let because there is nothing to unwrap
+    if let Err(err) = run(config) {
+        println!("Application error: {err}");
+        process::exit(1);
+    };
 }
 
 struct Config {
@@ -32,8 +36,9 @@ impl Config {
     }
 }
 
-fn run(config: Config) {
-    let contents = fs::read_to_string(config.filepath).expect("provided filepath does not exist");
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.filepath)?;
 
     println!("contents:\n{}", contents);
+    Ok(())
 }
