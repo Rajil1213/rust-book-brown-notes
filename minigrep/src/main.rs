@@ -2,7 +2,7 @@ use std::{env, fs};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let config = parse_args(&args);
+    let config = Config::new(&args);
     println!(
         "searchstring = {}, filepath = {}",
         config.searchstring, config.filepath
@@ -18,12 +18,14 @@ struct Config {
     filepath: String,
 }
 
-fn parse_args(args: &[String]) -> Config {
-    let searchstring = args[1].clone();
-    let filepath = args[2].clone();
+impl Config {
+    fn new(args: &[String]) -> Self {
+        let searchstring = args[1].clone();
+        let filepath = args[2].clone();
 
-    Config {
-        searchstring,
-        filepath,
+        Self {
+            searchstring,
+            filepath,
+        }
     }
 }
