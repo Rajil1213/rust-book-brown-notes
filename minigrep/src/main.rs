@@ -1,16 +1,13 @@
-use std::{env, fs};
+use std::{env, fs, process};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let config = Config::new(&args);
-    println!(
-        "searchstring = {}, filepath = {}",
-        config.searchstring, config.filepath
-    );
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
 
-    let contents = fs::read_to_string(config.filepath).expect("provided filepath does not exist");
-
-    println!("contents:\n{}", contents);
+    run(config);
 }
 
 struct Config {
@@ -19,13 +16,24 @@ struct Config {
 }
 
 impl Config {
-    fn new(args: &[String]) -> Self {
+    fn build(args: &[String]) -> Result<Self, &str> {
+        // first => program_name, second, third => arguments
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
         let searchstring = args[1].clone();
         let filepath = args[2].clone();
 
-        Self {
+        Ok(Self {
             searchstring,
             filepath,
-        }
+        })
     }
+}
+
+fn run(config: Config) {
+    let contents = fs::read_to_string(config.filepath).expect("provided filepath does not exist");
+
+    println!("contents:\n{}", contents);
 }
