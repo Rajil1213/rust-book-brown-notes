@@ -23,7 +23,15 @@ impl Config {
 }
 
 fn search<'a>(searchstring: &'a str, contents: &'a str) -> Vec<&'a str> {
-    vec![]
+    let mut result: Vec<&str> = vec![];
+
+    for line in contents.lines() {
+        if line.contains(searchstring) {
+            result.push(line);
+        }
+    }
+
+    result
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
