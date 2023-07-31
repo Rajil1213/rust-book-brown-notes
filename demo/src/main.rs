@@ -1,4 +1,5 @@
 use demo::{Inventory, ShirtColor};
+mod ownership;
 
 fn main() {
     let store = Inventory {
@@ -11,4 +12,8 @@ fn main() {
 
     let giveaway2 = store.giveaway(None);
     println!("The user with no preference gets {giveaway2:?}");
+
+    println!("=====================");
+
+    ownership::test();
 }
