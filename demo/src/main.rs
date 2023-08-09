@@ -1,4 +1,5 @@
 use demo::{Inventory, ShirtColor};
+mod iterators;
 mod ownership;
 
 fn main() {
@@ -16,4 +17,8 @@ fn main() {
     println!("=====================");
 
     ownership::test();
+
+    println!("=====================");
+
+    iterators::test();
 }
