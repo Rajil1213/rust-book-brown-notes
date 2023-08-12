@@ -40,3 +40,55 @@ fn adatper_iterator() {
     let v2_values: Vec<i32> = v1_iter.collect();
     assert_eq!(v2_values, vec![2, 3, 4]);
 }
+
+#[derive(PartialEq, Debug)]
+struct Shoe {
+    size: u32,
+    style: String,
+}
+
+fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+    shoes
+        .into_iter()
+        .filter(|shoe| shoe.size == shoe_size)
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn filters_by_size() {
+        let shoes = vec![
+            Shoe {
+                size: 10,
+                style: String::from("sneaker"),
+            },
+            Shoe {
+                size: 12,
+                style: String::from("sandal"),
+            },
+            Shoe {
+                size: 12,
+                style: String::from("boot"),
+            },
+        ];
+
+        let in_my_size = shoes_in_size(shoes, 12);
+
+        assert_eq!(
+            in_my_size,
+            vec![
+                Shoe {
+                    size: 12,
+                    style: String::from("sandal"),
+                },
+                Shoe {
+                    size: 12,
+                    style: String::from("boot")
+                }
+            ]
+        )
+    }
+}
