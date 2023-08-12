@@ -7,16 +7,24 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Self, &str> {
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Self, &'static str> {
         // first => program_name, second, third => arguments
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
         const IGNORE_CASE_ENV_KEY: &str = "IGNORE_CASE";
-
-        let searchstring = args[1].clone();
-        let filepath = args[2].clone();
         let ignore_case = env::var(IGNORE_CASE_ENV_KEY).is_ok();
+
+        // ignore the program name
+        args.next();
+
+        // get the search string
+        let searchstring = match args.next() {
+            Some(searchstring) => searchstring,
+            None => return Err("didn't get a search string"),
+        };
+
+        let filepath = match args.next() {
+            Some(filepath) => filepath,
+            None => return Err("didn't get a filepath"),
+        };
 
         Ok(Self {
             searchstring,
