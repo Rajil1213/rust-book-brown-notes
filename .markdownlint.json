@@ -1,0 +1,8 @@
+{
+  "MD013": false,
+  "MD033": false,
+  "MD007": { "indent": 4 },
+  "MD009": { "br_spaces": 4 },
+  "MD010": { "code_blocks": false },
+  "MD024": false
+}
