@@ -35,15 +35,10 @@ impl Config {
 }
 
 fn search<'a>(searchstring: &'a str, contents: &'a str) -> Vec<&'a str> {
-    let mut result: Vec<&str> = vec![];
-
-    for line in contents.lines() {
-        if line.contains(searchstring) {
-            result.push(line);
-        }
-    }
-
-    result
+    contents
+        .lines()
+        .filter(|line| line.contains(searchstring))
+        .collect()
 }
 
 fn case_insensitive_search<'a>(searchstring: &'a str, contents: &'a str) -> Vec<&'a str> {
