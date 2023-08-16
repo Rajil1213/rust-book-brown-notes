@@ -55,5 +55,12 @@ mod test {
     fn says_hello_to_my_box() {
         let m = MyBox::new(String::from("Rust"));
         assert_eq!("Hello, Rust", hello(&m));
+
+        let n = &MyBox::new(String::from("again"));
+        // implicit coercion
+        assert_eq!("Hello, again", hello(n)); // n => &str
+                                              // explicit coercion
+        assert_eq!("Hello, again", hello(&(n)[..])); // &(n)[..] = &str
+        assert_eq!("Hello, again", hello(&((*n).deref())[..])); // (*n).deref() = &String
     }
 }
