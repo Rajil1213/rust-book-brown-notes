@@ -16,6 +16,16 @@ impl<T> Deref for MyBox<T> {
     }
 }
 
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("dropping custom smart pointer with data `{}`", self.data);
+    }
+}
+
 fn hello(name: &str) -> String {
     format!("Hello, {name}")
 }
@@ -62,5 +72,17 @@ mod test {
                                               // explicit coercion
         assert_eq!("Hello, again", hello(&(n)[..])); // &(n)[..] = &str
         assert_eq!("Hello, again", hello(&((*n).deref())[..])); // (*n).deref() = &String
+    }
+
+    #[test]
+    fn drop_test() {
+        let _c = CustomSmartPointer {
+            data: String::from("my stuff"),
+        };
+        let _d = CustomSmartPointer {
+            data: String::from("my other stuff"),
+        };
+
+        println!("CustomSmartPointers Created");
     }
 }
