@@ -84,5 +84,8 @@ mod test {
         };
 
         println!("CustomSmartPointers Created");
+
+        drop(_c);
+        println!("CustomSmartPointer _c dropped before end of scope");
     }
 }
