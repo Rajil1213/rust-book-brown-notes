@@ -16,8 +16,8 @@ impl<T> Deref for MyBox<T> {
     }
 }
 
-fn hello(name: &str) {
-    println!("Hello, {name}");
+fn hello(name: &str) -> String {
+    format!("Hello, {name}")
 }
 
 #[cfg(test)]
@@ -54,6 +54,6 @@ mod test {
     #[test]
     fn says_hello_to_my_box() {
         let m = MyBox::new(String::from("Rust"));
-        hello(&m);
+        assert_eq!("Hello, Rust", hello(&m));
     }
 }
