@@ -2,6 +2,7 @@
   "rust-analyzer.linkedProjects": [
     "./cons/Cargo.toml",
     "./my_box/Cargo.toml",
-    "./tracker/Cargo.toml"
+    "./tracker/Cargo.toml",
+    "./tree/Cargo.toml"
   ]
 }
