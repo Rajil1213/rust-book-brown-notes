@@ -1,6 +1,7 @@
 {
   "rust-analyzer.linkedProjects": [
     "./cons/Cargo.toml",
-    "./my_box/Cargo.toml"
+    "./my_box/Cargo.toml",
+    "./tracker/Cargo.toml"
   ]
 }
