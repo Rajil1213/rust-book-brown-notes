@@ -1,12 +1,5 @@
 # Smart Pointers
 
-Tags: Box, Deref, Drop, Interior Mutability, RefCell, Weak, rc
-Created time: August 13, 2023 6:38 PM
-Last edited time: August 17, 2023 8:20 PM
-Status: Done
-
-- Table of Contents
-
 ## Introduction
 
 - A `pointer` is a general concept for a variable that contains an address in memory that “points at” some other data
