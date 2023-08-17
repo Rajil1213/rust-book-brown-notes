@@ -5,6 +5,7 @@ use cons::{
     RcList::Nil as RcNil,
     RcList::{self, Cons as RcCons},
     RefCellList::{self, Cons as RefCellCons, Nil as RefCellNil},
+    UnsafeList::{self, Cons as UnsafeCons, Nil as UnsafeNil},
 };
 
 fn main() {
@@ -58,4 +59,34 @@ fn main() {
     println!("{rca:?}");
     println!("{b:?}");
     println!("{c:?}");
+
+    let a: UnsafeList = UnsafeCons(5, RefCell::new(Rc::new(UnsafeNil)));
+
+    let rca = Rc::new(a);
+    println!("initial rc count for a = {}", Rc::strong_count(&rca));
+    println!("next item for a = {:?}", rca.tail());
+
+    let b = Rc::new(UnsafeCons(10, RefCell::new(Rc::clone(&rca))));
+    println!(
+        "rc count of a after creating b = {}",
+        Rc::strong_count(&rca)
+    );
+    println!("initial rc count of b = {}", Rc::strong_count(&b));
+    println!("next item for b = {:?}", b.tail());
+
+    if let Some(link) = rca.tail() {
+        // link => tail of `b` => `a`
+        *link.borrow_mut() = Rc::clone(&b);
+        // now `a` points to `b`
+    }
+
+    println!("rc count of b after changing a = {}", Rc::strong_count(&b));
+    println!(
+        "rc count of a after changing a = {}",
+        Rc::strong_count(&rca)
+    );
+
+    // the following code will cause runtime Stack Overflow Error
+    // println!("next item of a = {:?}", rca.tail());
+    // println!("next item of b = {:?}", b.tail());
 }
