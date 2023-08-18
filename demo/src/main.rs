@@ -1,4 +1,5 @@
 use std::{thread, time::Duration};
+mod threads;
 
 fn main() {
     let handle = thread::spawn(|| {
@@ -14,4 +15,6 @@ fn main() {
     }
 
     handle.join().unwrap();
+
+    threads::test().join().unwrap();
 }
