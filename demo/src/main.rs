@@ -1,4 +1,5 @@
 use std::{thread, time::Duration};
+mod channels;
 mod threads;
 
 fn main() {
@@ -17,4 +18,6 @@ fn main() {
     handle.join().unwrap();
 
     threads::test().join().unwrap();
+
+    channels::test();
 }
