@@ -1,5 +1,6 @@
 use std::{thread, time::Duration};
 mod channels;
+mod mutexes;
 mod threads;
 
 fn main() {
@@ -20,4 +21,6 @@ fn main() {
     threads::test().join().unwrap();
 
     channels::test();
+
+    mutexes::test();
 }
