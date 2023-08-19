@@ -13,7 +13,7 @@ pub fn test() {
         ];
         for val in vals {
             tx.send(val).unwrap();
-            thread::sleep(Duration::from_secs(1));
+            thread::sleep(Duration::from_millis(500));
         }
         // can't do this now:
         // println!("Val is {val}");
@@ -28,7 +28,7 @@ pub fn test() {
         ];
         for val in vals {
             tx_clone.send(val).unwrap();
-            thread::sleep(Duration::from_secs(2));
+            thread::sleep(Duration::from_millis(200));
         }
         // can't do this now:
         // println!("Val is {val}");
