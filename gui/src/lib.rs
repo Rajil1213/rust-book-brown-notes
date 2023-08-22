@@ -30,7 +30,7 @@ impl Draw for Button {
 }
 
 #[cfg(test)]
-mod test {
+mod screen {
     use super::*;
 
     #[test]
