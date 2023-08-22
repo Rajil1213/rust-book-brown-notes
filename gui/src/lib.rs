@@ -86,4 +86,46 @@ mod test {
             screen.run()
         );
     }
+
+    #[test]
+    fn draws_two_different_components() {
+        const WIDTH: u32 = 10;
+        const HEIGHT: u32 = 12;
+        let placeholder: String = String::from("placeholder text");
+
+        struct TextField {
+            width: u32,
+            height: u32,
+            placeholder: String,
+        }
+
+        impl Draw for TextField {
+            fn draw(&self) -> String {
+                format!(
+                    "drawing a text field with width: {}, height: {}, placeholder: {}",
+                    self.width, self.height, self.placeholder
+                )
+            }
+        }
+
+        let screen = Screen {
+            components: vec![
+                Box::new(Button {
+                    width: WIDTH,
+                    height: HEIGHT,
+                    label: String::from("test button label"),
+                }),
+                Box::new(TextField {
+                    width: WIDTH,
+                    height: HEIGHT,
+                    placeholder: placeholder.clone(),
+                }),
+            ],
+        };
+
+        assert_eq!(vec![
+            String::from("drawing a button"),
+            format!("drawing a text field with width: {WIDTH}, height: {HEIGHT}, placeholder: {placeholder}"),
+        ], screen.run());
+    }
 }
