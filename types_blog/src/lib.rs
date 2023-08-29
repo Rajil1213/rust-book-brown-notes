@@ -41,6 +41,12 @@ impl PendingReviewPost {
             content: self.content,
         }
     }
+
+    pub fn reject(self) -> DraftPost {
+        DraftPost {
+            content: self.content,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -55,10 +61,15 @@ mod blog {
         post.add_text(content);
         // assert_eq!("", post.content());
 
-        let pending_review_post = post.request_review();
+        let post = post.request_review();
         // assert_eq!("", post.content());
 
-        let approved_post = pending_review_post.approve();
-        assert_eq!(content, approved_post.content());
+        let post = post.reject();
+        // assert_eq!("", post.content());
+
+        let post = post.request_review();
+
+        let post = post.approve();
+        assert_eq!(content, post.content());
     }
 }
