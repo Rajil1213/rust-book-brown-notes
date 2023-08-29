@@ -7,6 +7,7 @@ struct DraftPost {
 }
 
 struct PendingReviewPost {
+    approvals: u8,
     content: String,
 }
 
@@ -30,16 +31,33 @@ impl DraftPost {
 
     pub fn request_review(self) -> PendingReviewPost {
         PendingReviewPost {
+            approvals: 0,
             content: self.content,
         }
     }
 }
 
+enum MaybeApproved {
+    PendingApproval(PendingReviewPost),
+    Approved(Post),
+}
+
 impl PendingReviewPost {
-    pub fn approve(self) -> Post {
-        Post {
-            content: self.content,
+    pub fn approve(self) -> MaybeApproved {
+        if self.approvals < 1 {
+            let pending_approval = PendingReviewPost {
+                approvals: self.approvals + 1,
+                content: self.content,
+            };
+
+            return MaybeApproved::PendingApproval(pending_approval);
         }
+
+        let post = Post {
+            content: self.content,
+        };
+
+        MaybeApproved::Approved(post)
     }
 
     pub fn reject(self) -> DraftPost {
@@ -51,6 +69,8 @@ impl PendingReviewPost {
 
 #[cfg(test)]
 mod blog {
+    use crate::MaybeApproved;
+
     use super::Post;
 
     #[test]
@@ -70,6 +90,20 @@ mod blog {
         let post = post.request_review();
 
         let post = post.approve();
+        let post = match post {
+            MaybeApproved::PendingApproval(pending) => pending.approve(),
+            MaybeApproved::Approved(_) => {
+                panic!("post needs two approvals to be approved");
+            }
+        };
+
+        let post = match post {
+            MaybeApproved::PendingApproval(_) => {
+                panic!("post needs to be approved after two approvals")
+            }
+            MaybeApproved::Approved(approved) => approved,
+        };
+
         assert_eq!(content, post.content());
     }
 }
