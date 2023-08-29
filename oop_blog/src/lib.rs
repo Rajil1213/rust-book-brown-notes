@@ -18,7 +18,12 @@ impl Post {
     }
 
     pub fn add_text(&mut self, text: &str) {
-        self.content.push_str(text);
+        self.content = self
+            .state
+            .as_ref()
+            .unwrap()
+            .add_text(text, &mut self.content)
+            .to_string();
     }
 
     pub fn content(&self) -> &str {
@@ -45,6 +50,7 @@ impl Post {
 }
 
 trait State {
+    fn add_text<'a>(&self, text: &'a str, content: &'a mut String) -> &'a str;
     fn request_review(self: Box<Self>) -> Box<dyn State>;
     fn approve(self: Box<Self>) -> Box<dyn State>;
     fn content<'a>(&self, _post: &'a Post) -> &'a str {
@@ -55,6 +61,11 @@ trait State {
 struct Draft {}
 
 impl State for Draft {
+    fn add_text<'a>(&self, text: &'a str, content: &'a mut String) -> &'a str {
+        content.push_str(text);
+        content
+    }
+
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         Box::new(PendingReview { approvals: 0 })
     }
@@ -73,6 +84,10 @@ struct PendingReview {
 }
 
 impl State for PendingReview {
+    fn add_text<'a>(&self, _text: &'a str, content: &'a mut String) -> &'a str {
+        content
+    }
+
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self
     }
@@ -97,6 +112,10 @@ impl State for PendingReview {
 struct Published {}
 
 impl State for Published {
+    fn add_text<'a>(&self, _text: &'a str, content: &'a mut String) -> &'a str {
+        content
+    }
+
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self
     }
@@ -139,6 +158,25 @@ mod blog {
         assert_eq!("", post.content());
 
         post.approve();
+        assert_eq!(content, post.content());
+    }
+
+    #[test]
+    fn only_allow_adding_text_to_draft() {
+        let mut post = Post::new();
+        let content = "I ate a salad for lunch today";
+        let content_to_add = " and I loved it";
+
+        post.add_text(content);
+        post.request_review();
+        // add text again
+        post.add_text(content_to_add);
+
+        post.approve();
+        // add text again
+        post.add_text(content_to_add);
+        post.approve();
+
         assert_eq!(content, post.content());
     }
 }
