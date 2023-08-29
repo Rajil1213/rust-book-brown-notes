@@ -56,7 +56,7 @@ struct Draft {}
 
 impl State for Draft {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
-        Box::new(PendingReview {})
+        Box::new(PendingReview { approvals: 0 })
     }
 
     fn approve(self: Box<Self>) -> Box<dyn State> {
@@ -68,7 +68,9 @@ impl State for Draft {
     }
 }
 
-struct PendingReview {}
+struct PendingReview {
+    approvals: u8,
+}
 
 impl State for PendingReview {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
@@ -76,7 +78,15 @@ impl State for PendingReview {
     }
 
     fn approve(self: Box<Self>) -> Box<dyn State> {
-        Box::new(Published {})
+        // if already one approval is present, this is the second one
+        // so publish
+        if self.approvals == 1 {
+            return Box::new(Published {});
+        }
+
+        Box::new(PendingReview {
+            approvals: self.approvals + 1,
+        })
     }
 
     fn reject(self: Box<Self>) -> Box<dyn State> {
@@ -123,6 +133,9 @@ mod blog {
         assert_eq!("", post.content());
 
         post.request_review();
+        assert_eq!("", post.content());
+
+        post.approve();
         assert_eq!("", post.content());
 
         post.approve();
