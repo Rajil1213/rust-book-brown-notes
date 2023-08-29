@@ -18,12 +18,10 @@ impl Post {
     }
 
     pub fn add_text(&mut self, text: &str) {
-        self.content = self
-            .state
+        self.state
             .as_ref()
             .unwrap()
             .add_text(text, &mut self.content)
-            .to_string();
     }
 
     pub fn content(&self) -> &str {
@@ -50,7 +48,7 @@ impl Post {
 }
 
 trait State {
-    fn add_text<'a>(&self, text: &'a str, content: &'a mut String) -> &'a str;
+    fn add_text<'a>(&self, _text: &'a str, _content: &'a mut String) {}
     fn request_review(self: Box<Self>) -> Box<dyn State>;
     fn approve(self: Box<Self>) -> Box<dyn State>;
     fn content<'a>(&self, _post: &'a Post) -> &'a str {
@@ -61,9 +59,8 @@ trait State {
 struct Draft {}
 
 impl State for Draft {
-    fn add_text<'a>(&self, text: &'a str, content: &'a mut String) -> &'a str {
+    fn add_text<'a>(&self, text: &'a str, content: &'a mut String) {
         content.push_str(text);
-        content
     }
 
     fn request_review(self: Box<Self>) -> Box<dyn State> {
@@ -84,10 +81,6 @@ struct PendingReview {
 }
 
 impl State for PendingReview {
-    fn add_text<'a>(&self, _text: &'a str, content: &'a mut String) -> &'a str {
-        content
-    }
-
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self
     }
@@ -112,10 +105,6 @@ impl State for PendingReview {
 struct Published {}
 
 impl State for Published {
-    fn add_text<'a>(&self, _text: &'a str, content: &'a mut String) -> &'a str {
-        content
-    }
-
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self
     }
