@@ -113,4 +113,17 @@ mod test {
         assert_eq!(indices, vec![0, 1, 2]);
         assert_eq!(values, v);
     }
+
+    #[test]
+    fn test_fn_pattern() {
+        fn get_coordinates(&(x, y): &(i32, i32)) -> (i32, i32) {
+            (x, y)
+        }
+
+        let point = (1, 2);
+        let (x, y) = get_coordinates(&point);
+
+        assert_eq!(x, 1);
+        assert_eq!(y, 2);
+    }
 }
