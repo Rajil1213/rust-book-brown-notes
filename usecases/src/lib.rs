@@ -80,4 +80,22 @@ mod test {
             assert_eq!(result, test_case.expected);
         }
     }
+
+    #[test]
+    fn test_while_let() {
+        let mut stack = Vec::new();
+
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        let expected = stack.len();
+
+        let mut actual: usize = 0;
+        while let Some(top) = stack.pop() {
+            actual += 1;
+        }
+
+        assert_eq!(actual, expected);
+    }
 }
