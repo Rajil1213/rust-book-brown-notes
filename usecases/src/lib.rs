@@ -92,10 +92,25 @@ mod test {
         let expected = stack.len();
 
         let mut actual: usize = 0;
-        while let Some(top) = stack.pop() {
+        while let Some(_top) = stack.pop() {
             actual += 1;
         }
 
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn test_for() {
+        let v = vec!['a', 'b', 'c'];
+
+        let mut indices = Vec::new();
+        let mut values = Vec::new();
+        for (index, value) in v.iter().enumerate() {
+            indices.push(index);
+            values.push(*value);
+        }
+
+        assert_eq!(indices, vec![0, 1, 2]);
+        assert_eq!(values, v);
     }
 }
