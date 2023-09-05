@@ -1,3 +1,5 @@
+mod syntax;
+
 fn if_let_else(favorite_color: Option<&str>, is_tuesday: bool, age: Result<u8, ()>) -> String {
     if let Some(color) = favorite_color {
         format!("Using your favorite color: {} as your background", color)
