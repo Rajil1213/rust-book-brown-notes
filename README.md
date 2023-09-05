@@ -53,7 +53,7 @@
 - The particular pattern `_` will match anything, but it never binds to a variable, so it’s often used in the last match arm
 - This pattern is useful when you want to ignore any value not specified. For example:
     
-    ```toml
+    ```rust
     fn match_arms() {
         let x: Option<i32> = Some(1);
         let matched = match x {
