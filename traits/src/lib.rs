@@ -29,6 +29,52 @@ impl Add<Meters> for Millimeters {
     }
 }
 
+trait Pilot {
+    fn fly(&self) -> String;
+}
+
+trait Wizard {
+    fn fly(&self) -> String;
+}
+
+struct Human;
+
+impl Pilot for Human {
+    fn fly(&self) -> String {
+        format!("This is your captain speaking!")
+    }
+}
+
+impl Wizard for Human {
+    fn fly(&self) -> String {
+        format!("Up!")
+    }
+}
+
+impl Human {
+    fn fly(&self) -> String {
+        format!("*waves arms furiously*")
+    }
+}
+
+trait Animal {
+    fn baby_name() -> String;
+}
+
+struct Dog;
+
+impl Dog {
+    fn baby_name() -> String {
+        format!("Spot")
+    }
+}
+
+impl Animal for Dog {
+    fn baby_name() -> String {
+        format!("puppy")
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -45,5 +91,23 @@ mod tests {
     #[test]
     fn adding_meters_to_millimeters_works() {
         assert_eq!(Millimeters(2000) + Meters(2), Millimeters(4000));
+    }
+
+    #[test]
+    fn same_named_methods_work() {
+        let human: Human = Human {};
+
+        assert_eq!(human.fly(), "*waves arms furiously*".to_string());
+        assert_eq!(
+            Pilot::fly(&human),
+            "This is your captain speaking!".to_string()
+        );
+        assert_eq!(Wizard::fly(&human), "Up!".to_string());
+    }
+
+    #[test]
+    fn same_named_methods_without_self_work() {
+        assert_eq!(Dog::baby_name(), "Spot");
+        assert_eq!(<Dog as Animal>::baby_name(), "puppy");
     }
 }
