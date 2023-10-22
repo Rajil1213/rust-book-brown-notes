@@ -1,4 +1,5 @@
-use std::ops::Add;
+use core::fmt;
+use std::{fmt::Display, ops::Add};
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 struct Point {
@@ -74,6 +75,28 @@ impl Animal for Dog {
         String::from("puppy")
     }
 }
+
+// Super traits
+trait OutlinePrint: fmt::Display {
+    fn outline_print(&self) {
+        let output = self.to_string();
+        let len = output.len();
+
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
+impl Display for Point {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+impl OutlinePrint for Point {}
 
 #[cfg(test)]
 mod tests {
