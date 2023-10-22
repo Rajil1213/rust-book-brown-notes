@@ -133,4 +133,10 @@ mod tests {
         assert_eq!(Dog::baby_name(), "Spot");
         assert_eq!(<Dog as Animal>::baby_name(), "puppy");
     }
+
+    #[test]
+    fn supertrait_works() {
+        let p = Point { x: 2, y: 3 };
+        p.outline_print();
+    }
 }
