@@ -98,6 +98,15 @@ impl Display for Point {
 
 impl OutlinePrint for Point {}
 
+// Newtype pattern
+struct Wrapper(Vec<String>);
+
+impl Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -138,5 +147,11 @@ mod tests {
     fn supertrait_works() {
         let p = Point { x: 2, y: 3 };
         p.outline_print();
+    }
+
+    #[test]
+    fn newtype_works() {
+        let wrapper_vec = Wrapper(vec!["a".to_string(), "b".to_string(), "c".to_string()]);
+        println!("{wrapper_vec}");
     }
 }
