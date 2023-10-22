@@ -41,19 +41,19 @@ struct Human;
 
 impl Pilot for Human {
     fn fly(&self) -> String {
-        format!("This is your captain speaking!")
+        String::from("This is your captain speaking!")
     }
 }
 
 impl Wizard for Human {
     fn fly(&self) -> String {
-        format!("Up!")
+        String::from("Up!")
     }
 }
 
 impl Human {
     fn fly(&self) -> String {
-        format!("*waves arms furiously*")
+        String::from("*waves arms furiously*")
     }
 }
 
@@ -65,13 +65,13 @@ struct Dog;
 
 impl Dog {
     fn baby_name() -> String {
-        format!("Spot")
+        String::from("Spot")
     }
 }
 
 impl Animal for Dog {
     fn baby_name() -> String {
-        format!("puppy")
+        String::from("puppy")
     }
 }
 
