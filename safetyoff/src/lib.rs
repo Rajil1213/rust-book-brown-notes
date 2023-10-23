@@ -1,5 +1,7 @@
 use std::slice;
 
+static mut COUNTER: u32 = 0;
+
 extern "C" {
     fn abs(input: i32) -> i32;
 }
@@ -44,6 +46,12 @@ pub fn split_at_mut(values: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) 
     }
 }
 
+fn add_to_static(val: u32) {
+    unsafe {
+        COUNTER += val;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -74,6 +82,15 @@ mod tests {
     fn invoke_ffi() {
         unsafe {
             assert_eq!(3, abs(-3));
+        }
+    }
+
+    #[test]
+    fn mutating_static_works() {
+        add_to_static(3);
+
+        unsafe {
+            assert_eq!(3, COUNTER);
         }
     }
 }
