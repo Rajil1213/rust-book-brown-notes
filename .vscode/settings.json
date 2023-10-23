@@ -1,5 +1,8 @@
 {
   "rust-analyzer.linkedProjects": [
-    "./traits/Cargo.toml"
+    "./traits/Cargo.toml",
+    "./safetyoff/Cargo.toml",
+    "./advanced_fn/Cargo.toml",
+    "./macrosni/Cargo.toml"
   ]
 }
