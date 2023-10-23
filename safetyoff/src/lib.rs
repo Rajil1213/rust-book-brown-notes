@@ -4,6 +4,11 @@ extern "C" {
     fn abs(input: i32) -> i32;
 }
 
+#[no_mangle]
+pub extern "C" fn call_from_c() {
+    println!("Just called a Rust function from C!");
+}
+
 pub fn unsafe_mem() -> (i32, i32) {
     let mut num = 5;
     let r1 = &num as *const i32;
