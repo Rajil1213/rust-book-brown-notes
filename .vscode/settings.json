@@ -3,6 +3,7 @@
     "./traits/Cargo.toml",
     "./safetyoff/Cargo.toml",
     "./advanced_fn/Cargo.toml",
-    "./macrosni/Cargo.toml"
+    "./macrosni/Cargo.toml",
+    "./procedural/Cargo.toml"
   ]
 }
