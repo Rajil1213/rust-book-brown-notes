@@ -1,3 +1,5 @@
+use std::slice;
+
 pub fn unsafe_mem() -> (i32, i32) {
     let mut num = 5;
     let r1 = &num as *const i32;
@@ -19,6 +21,20 @@ pub unsafe fn dangerous() -> Result<(), String> {
     Ok(())
 }
 
+pub fn split_at_mut(values: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
+    let len = values.len();
+    let ptr: *mut i32 = values.as_mut_ptr();
+
+    assert!(mid <= len);
+
+    unsafe {
+        (
+            slice::from_raw_parts_mut(ptr, mid),
+            slice::from_raw_parts_mut(ptr.add(mid), len - mid),
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -34,5 +50,14 @@ mod tests {
         unsafe {
             assert!(dangerous().is_ok());
         }
+    }
+
+    #[test]
+    fn safe_over_unsafe() {
+        let mut a = [1, 2, 3, 4, 5];
+        let parts = split_at_mut(&mut a[..], 2);
+
+        assert_eq!(parts.0, &[1, 2]);
+        assert_eq!(parts.1, &[3, 4, 5]);
     }
 }
