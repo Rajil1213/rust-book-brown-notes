@@ -1,5 +1,9 @@
 use std::slice;
 
+extern "C" {
+    fn abs(input: i32) -> i32;
+}
+
 pub fn unsafe_mem() -> (i32, i32) {
     let mut num = 5;
     let r1 = &num as *const i32;
@@ -59,5 +63,12 @@ mod tests {
 
         assert_eq!(parts.0, &[1, 2]);
         assert_eq!(parts.1, &[3, 4, 5]);
+    }
+
+    #[test]
+    fn invoke_ffi() {
+        unsafe {
+            assert_eq!(3, abs(-3));
+        }
     }
 }
