@@ -9,10 +9,15 @@ use std::{
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
+    const THREAD_COUNT: usize = 4;
+    let pool = ThreadPool::new(THREAD_COUNT);
+
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        handle_connection(stream);
+        pool.execute(|| {
+            handle_connection(stream);
+        });
     }
 }
 
