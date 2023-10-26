@@ -4,11 +4,11 @@
 
 - For this final project, we’ll build a multi-threaded web server that simply says “Hello”
 - Here’s the plan:
-  - Learn a bit about TCP and HTTP
-  - Listen for TCP connections on a socket
-  - Parse a small number of HTTP requests
-  - Create a proper HTTP response
-  - Improve the throughput of the server with a thread pool
+    - Learn a bit about TCP and HTTP
+    - Listen for TCP connections on a socket
+    - Parse a small number of HTTP requests
+    - Create a proper HTTP response
+    - Improve the throughput of the server with a thread pool
 - Note that the following implementation is not the best way to build a web server in Rust
 - More complete, production-ready crates are available on [crates.io](http://crates.io)
 - This chapter explores how to write a basic HTTP server with a thread pool, from scratch so as to learn and the explore the general ideas and techniques behind the crates you might use in the future
@@ -50,7 +50,7 @@
     }
     ```
 
-- If we run the above code, we should be `nc` or `curl` or open a web browser at `127.0.0.1:7878` and see `connection established` show on the console
+- If we run the above code, with `nc` or `curl` or open a web browser at `127.0.0.1:7878` and see `connection established` show on the console
 
     ```bash
     ╰─λ cargo r     
@@ -814,7 +814,7 @@
 
         Also note that we have removed the `job_receiver` field from the definition of `Worker` because the it is now held by the closure passed to the the `thread`.
 
-  - With all that, we should now be able to run the web server again and should see something like the following when we make requests:
+    - With all that, we should now be able to run the web server again and should see something like the following when we make requests:
 
     ```rust
     Finished dev [unoptimized + debuginfo] target(s) in 0.94s
@@ -871,13 +871,13 @@
     ```
 
 - The answer is a bit subtle:
-  - There is no public `unlock()` method on the `Mutex` because the ownership of the loc is based on the lifetime of the `MutexGuard<T>` within the `LockResult<MutexGuard<T>>` that the `lock` method returns
-  - At compile time, the borrow checker can then enforce the rule that a resource guarded by a mutex cannot be accessed unless we. hold the lock
-  - However, this implementation can also result in the lock being held longer than intended if we aren’t mindful of the lifetime of the `MutexGuard<T>`
-  - When we use a `let` binding, any temporary value used on the right hand side of the equals sign are immediately dropped when the `let` statement ends. In this case, the `Mutex` is dropped once we acquire the `job`.
-  - But in the case of `while let` (and `if let` and `match`), the temporary values are not dropped until the end of the associated block
-  - So, if we were to use the `while let` construct the `mutex` would be locked until the `job` finishes executing effectively blocking other threads and so, causing our multi-threaded web server to become sequential instead of concurrent!
-  - For a simple reason, the following code will also execute sequentially:
+    - There is no public `unlock()` method on the `Mutex` because the ownership of the loc is based on the lifetime of the `MutexGuard<T>` within the `LockResult<MutexGuard<T>>` that the `lock` method returns
+    - At compile time, the borrow checker can then enforce the rule that a resource guarded by a mutex cannot be accessed unless we. hold the lock
+    - However, this implementation can also result in the lock being held longer than intended if we aren’t mindful of the lifetime of the `MutexGuard<T>`
+    - When we use a `let` binding, any temporary value used on the right hand side of the equals sign are immediately dropped when the `let` statement ends. In this case, the `Mutex` is dropped once we acquire the `job`.
+    - But in the case of `while let` (and `if let` and `match`), the temporary values are not dropped until the end of the associated block
+    - So, if we were to use the `while let` construct the `mutex` would be locked until the `job` finishes executing effectively blocking other threads and so, causing our multi-threaded web server to become sequential instead of concurrent!
+    - For a simple reason, the following code will also execute sequentially:
 
     ```rust
     fn new(id: usize, receiver: Arc<Mutex<Receiver<Job>>>) -> Worker {                                         
