@@ -8,7 +8,7 @@ use std::{
 
 pub struct ThreadPool {
     workers: Vec<Worker>,
-    job_sender: Sender<Job>,
+    job_sender: Option<Sender<Job>>,
 }
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
@@ -35,7 +35,7 @@ impl ThreadPool {
 
         ThreadPool {
             workers,
-            job_sender: job_queue_tx,
+            job_sender: Some(job_queue_tx),
         }
     }
 
@@ -44,24 +44,49 @@ impl ThreadPool {
         F: FnOnce() + Send + 'static,
     {
         let job = Box::new(f);
-        self.job_sender.send(job).unwrap();
+        self.job_sender
+            .as_ref()
+            .expect("channel closed")
+            .send(job)
+            .unwrap();
+    }
+}
+
+impl Drop for ThreadPool {
+    fn drop(&mut self) {
+        drop(self.job_sender.take());
+
+        for worker in &mut self.workers {
+            println!("Shutting down worker {}", worker.id);
+            if let Some(thread) = worker.thread.take() {
+                thread.join().unwrap();
+            }
+        }
     }
 }
 
 pub struct Worker {
     id: usize,
-    thread: JoinHandle<()>,
+    thread: Option<JoinHandle<()>>,
 }
 
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(move || loop {
-            let job = receiver.lock().expect("mutex poisoned").recv().unwrap();
+            // assign separately to drop and release `MutexGuard` lock
+            let message = receiver.lock().expect("mutex poisoned").recv();
 
-            println!("Worker {id} got a job; executing...");
-            job();
+            if let Ok(job) = message {
+                println!("Worker {id} got a job; executing...");
+                job();
+            } else {
+                println!("Shutting down thread for worker: {id}");
+                break;
+            }
         });
-
-        Worker { id, thread }
+        Worker {
+            id,
+            thread: Some(thread),
+        }
     }
 }

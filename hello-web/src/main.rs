@@ -14,13 +14,15 @@ fn main() {
     const THREAD_COUNT: usize = 4;
     let pool = ThreadPool::new(THREAD_COUNT);
 
-    for stream in listener.incoming() {
+    for stream in listener.incoming().take(THREAD_COUNT) {
         let stream = stream.unwrap();
 
         pool.execute(|| {
             handle_connection(stream);
         });
     }
+
+    println!("Shutting down server, gracefully!");
 }
 
 fn handle_connection(mut stream: TcpStream) {
